@@ -18,17 +18,6 @@ $loader->registerDirs(
 	)
 );
 
-/**
- * Register primary namespaces
- */
-
-//$loader->registerNamespaces(
-//    array(
-//        'PH' => 	$config->application->libraryDir . 'PH',
-//        'Phalcon' => $config->application->libraryDir . 'Phalcon'
-//    )
-//);
-
 $loader->register();
 
 // autoload the dependencies found in composer
