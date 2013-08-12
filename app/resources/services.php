@@ -29,8 +29,15 @@ $di = new FactoryDefault();
 
 // load the caching service
 include __DIR__."/services/caches.php";
+
+
+$di->set('testdi', function() use ($config){
+
+    return "aaa";
+});
+
 echo "\n\n==CHECKING CACHE==\n\n";
-var_dump($di->get("cache"));
+var_dump($di->get("testdi"));
 
 // load the translation service
 include __DIR__."/services/translate.php";
