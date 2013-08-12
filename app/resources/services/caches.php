@@ -4,7 +4,7 @@ $di->set('cache', function() use ($config){
 
 
     //Cache data for one day by default
-    $backCache = new Phalcon\Cache\Frontend\Data(array(
+    $backCache = new \Phalcon\Cache\Frontend\Data(array(
         "lifetime" => 86400
     ));
 
