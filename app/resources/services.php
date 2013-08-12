@@ -29,6 +29,8 @@ $di = new FactoryDefault();
 
 // load the caching service
 include __DIR__."/services/caches.php";
+echo "\n\n==CHECKING CACHE==\n\n";
+var_dump($di->get("cache"));
 
 // load the translation service
 include __DIR__."/services/translate.php";
