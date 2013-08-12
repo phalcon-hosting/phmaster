@@ -1,7 +1,7 @@
 <?php
 echo 'setting caches';
 $di->set('cache', function() use ($config){
-    echo 'config';
+
 
     //Cache data for one day by default
     $backCache = new Phalcon\Cache\Frontend\Data(array(
@@ -9,12 +9,16 @@ $di->set('cache', function() use ($config){
     ));
 
     //Create the Cache setting memcached connection options
-    $cache = new Phalcon\Cache\Backend\Memcache($backCache, array(
-        'host' => 'localhost',
-        'port' => 11211,
-        'persistent' => false
+//    $cache = new Phalcon\Cache\Backend\Memcache($backCache, array(
+//        'host' => 'localhost',
+//        'port' => 11211,
+//        'persistent' => false
+//    ));
+
+    $cache = new \Phalcon\Cache\Backend\Apc($backCache,array(
+        'prefix' => 'app-data'
     ));
-    var_dump($cache);
+
     return $cache;
 });
 
