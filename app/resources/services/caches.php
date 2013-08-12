@@ -1,5 +1,7 @@
 <?php
+echo 'setting caches';
 $di->set('cache', function() use ($config){
+    echo 'config';
 
     //Cache data for one day by default
     $backCache = new Phalcon\Cache\Frontend\Data(array(
