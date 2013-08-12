@@ -1,0 +1,29 @@
+a.brand {
+
+}
+
+a.brand span {
+    position:relative;
+    top:2px;
+}
+
+/* override of the main.css */
+header.navbar .brand, header.navbar-inverse .brand{
+    padding: 5px 0 5px 8px;
+}
+
+a.brand img{
+    margin-right:1px;
+}
+
+div.brand-container {
+    background: url('../img/logo.png') 0 2px no-repeat fixed;
+    background-size: 32px 32px;
+    width: 250px;
+    display: block;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}

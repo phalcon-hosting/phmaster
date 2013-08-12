@@ -1,0 +1,1 @@
+<p class="text-center">&copy; 2013 <strong>Phalcon Hosting</strong> - <a href="mailto:info@soul-soldiers.nl">info@phalconhosting.com</a></p>

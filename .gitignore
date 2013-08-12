@@ -1,0 +1,27 @@
+public/webtools.config.php
+public/webtools.php
+
+
+# phpstorm
+.idea*
+
+
+# netbeans
+/nbproject/
+/build/
+
+
+# composer
+/vendor/
+composer.lock
+composer.phar
+
+
+# mac
+.Trashes
+.DS_STORE
+
+
+# app/config/config.php is ignored into app/config/config.php
+# app/cache ignored into app/cache/.gitignore
+/backup/
