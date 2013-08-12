@@ -15,9 +15,7 @@ $di->set('cache', function() use ($config){
 //        'persistent' => false
 //    ));
 
-    $cache = new \Phalcon\Cache\Backend\Apc($backCache,array(
-        'prefix' => 'app-data'
-    ));
+    $cache = new \Phalcon\Cache\Backend\Memory($backCache);
 
     return $cache;
 });
