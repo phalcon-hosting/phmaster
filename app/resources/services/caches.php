@@ -12,7 +12,7 @@ $di->set('cache', function() use ($config){
         'port' => 11211,
         'persistent' => false
     ));
-
+    var_dump($cache);
     return $cache;
 });
 

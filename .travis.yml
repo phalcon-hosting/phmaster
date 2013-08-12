@@ -14,6 +14,5 @@ before_script:
  - (cd cphalcon/build/32bits; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks"; phpize && ./configure --enable-phalcon && make -j2 && sudo make install && phpenv config-add ../../../tests/phalcon.ini)
  - wget http://getcomposer.org/composer.phar
  - php composer.phar install
- - ( chmod -R 777 app/library )
 
 script: (cd tests; phpunit --debug)
