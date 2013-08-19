@@ -38,12 +38,6 @@ include __DIR__ . "/../app/resources/loader.php";
  */
 include __DIR__ . "/../app/resources/services.php";
 
-/**
- * Read routes
- */
-include __DIR__ . "/../app/resources/router.php";
-
-
 
 
 /**
@@ -52,12 +46,6 @@ include __DIR__ . "/../app/resources/router.php";
 $application = new \Phalcon\Mvc\Application();
 $application->setDI($di);
 
-// set the config object in the DI container
-$di->set('router', $router);
 
-try {
-    echo $application->handle()->getContent();
-} catch(\Phalcon\Mvc\Dispatcher\Exception $e) {
-
-    $application->response->redirect('error/notfound')->send();
-}
+echo $application->handle()->getContent();
+// exception/404 managed from the dispatcher event

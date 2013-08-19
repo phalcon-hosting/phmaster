@@ -31,13 +31,7 @@ $di = new FactoryDefault();
 include __DIR__."/services/caches.php";
 
 
-$di->set('testdi', function() use ($config){
 
-    return "aaa";
-});
-
-echo "\n\n==CHECKING CACHE==\n\n";
-var_dump($di->get("testdi"));
 
 // load the translation service
 include __DIR__."/services/translate.php";
@@ -62,6 +56,12 @@ include __DIR__."/services/acl.php";
 
 // load the security service
 include __DIR__."/services/security.php";
+
+// load the dispatcher service
+include __DIR__."/services/dispatcher.php";
+
+// load the routes
+include __DIR__ . "/services/router.php";
 
 // load the config into the DI
 $di->set('config', $config);
