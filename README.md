@@ -8,6 +8,7 @@ Requirements
 * Make sure to have phalcon extension loaded into php : ```php -m | grep phalcon```
 * Make sure to have memcached server installed : ```service memcached status```
 * Make sure to have memcache extension loaded into php : ```php -m | grep memcache```
+* Make sure to have the pecl_http extension loaded into php (http://php.net/manual/en/http.install.php) : ```php -m | grep http```
 
 Instaling
 -------------

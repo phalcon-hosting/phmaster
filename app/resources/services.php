@@ -63,8 +63,11 @@ include __DIR__."/services/dispatcher.php";
 // load the routes
 include __DIR__ . "/services/router.php";
 
+// load auth services
+
 // load the config into the DI
 $di->set('config', $config);
+include __DIR__ . "/services/auth.php";
 
 /**
  * Other (misc) services

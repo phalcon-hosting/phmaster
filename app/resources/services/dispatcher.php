@@ -18,6 +18,13 @@ $di->set('dispatcher', function() use ($config){
             ));
             return false;
         }
+        // DEV :
+        var_dump($exception->getTrace());
+
+        // Not a 404 then we trigger an error (that aims to be displayed or go in the log error, depending on the environment)
+        trigger_error("An exception has been detected from the dispatcher event :" . $exception->getMessage(),E_USER_WARNING);
+
+
 
         //Handle other exceptions
         $dispatcher->forward(array(

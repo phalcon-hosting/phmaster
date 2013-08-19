@@ -27,5 +27,17 @@ return new \Phalcon\Config(array(
         'cacheDir'       => APPLICATION_PATH.'/cache/',
         'locales'        => APPLICATION_PATH.'/messages/',
         'baseUri'        => '/',
-    )
+    ),
+
+    'auth' => array(
+
+        'github' => array(
+
+            'redirectUri' => "",
+            'clientId'    => "",
+            'secretId'    => "",
+
+        ),
+
+    ),
 ));
