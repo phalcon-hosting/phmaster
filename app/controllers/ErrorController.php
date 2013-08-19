@@ -39,5 +39,13 @@ class ErrorController extends ControllerBase
         $this->response->setStatusCode(403, "Not Authenticated");
         $this->flash->error($this->translate('$msg not authenticated'));
     }
+
+    /**
+     * This action fires when a page cannot be found
+     */
+    public function fatalAction() {
+        $this->response->setStatusCode(500, "Error");
+        echo '<pre> A NICE 500 MESSAGE </pre>';
+    }
 }
 
