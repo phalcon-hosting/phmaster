@@ -1,0 +1,50 @@
+server {
+        listen   80;
+
+
+        root [WWW_DIR]/public;
+        index index.php index.html index.htm;
+
+        server_name [WWW_ADDRESS];
+
+        try_files $uri $uri/ @rewrite;
+
+        location @rewrite {
+            rewrite ^/(.*)$ /index.php?_url=/$1;
+        }
+
+        location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml)$ {
+            access_log        off;
+            log_not_found     off;
+            expires           30d;
+            add_header Pragma public;
+            add_header Cache-Control "public";
+        }
+
+        error_page 404 /404.html;
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+              root [WWW_DIR]/public;
+        }
+
+
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        location ~ \.php$ {
+               # Zero-day exploit defense.
+               # http://forum.nginx.org/read.php?2,88845,page=3
+                try_files $uri =404;
+
+               fastcgi_split_path_info ^(.+\.php)(/.+)$;
+               fastcgi_index index.php;
+               #    fastcgi_intercept_errors on;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+              fastcgi_param SCRIPT_NAME /index.php;
+              fastcgi_param QUERY_STRING _url=$uri;
+
+              include fastcgi_params;
+
+        }
+
+}
