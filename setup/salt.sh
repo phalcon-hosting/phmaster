@@ -1,37 +1,50 @@
 #!/bin/bash
 DIR=`dirname $(readlink -f $0)`
-SALT_DIR='srv/salt'
+SALT_DIR='/srv/salt'
 SSH_DIR='/home/ubuntu/.ssh'
+SRV=$(hostname)
+PILLAR_DIR='/srv/pillar'
 
-source ${DIR}/setup/main_checks.sh
+. ${DIR}/main.sh
 
 get_bootstrap(){
     wget -O - http://bootstrap.saltstack.org | sudo sh
 }
 
+minimum_pillar() {
+
+ if [ ! -r ${PILLAR_DIR}database ] ; then
+
+ mkdir ${PILLAR_DIR}/database
+    #this creates the minimum salt pillar for local usage (random mysql password)
+    echo "
+dbuser: phminion
+dbpass: $(randpass)" >  ${PILLAR_DIR}/database/init.sls
+
+fi
+}
+
 copy_salt_files(){
 
-    # copy the ssh keys
-    if [ ! -r ${SSH_DIR} ] ; then
-       mkdir ${SSH_DIR}
-       cp -R ${DIR}/ssh-key/. ${SSH_DIR}
-    fi
-
-
     # copy master-only files
-    if [ -r /etc/salt/master ] ; then
-
+    if [[ ${SRV} == *master* ]] ; then
+        echo ">>> Master server detected"
+        echo
+        sleep 2
         # make the salt-dirs
         if [ ! -r ${SALT_DIR} ] ; then
             mkdir ${SALT_DIR}
             mkdir ${SALT_DIR}/templates
-            mkdir ${SALT_DIR}/pillar
+            mkdir ${PILLAR_DIR}
         fi
 
         cp -R ${DIR}/salt/. ${SALT_DIR}/
         cp -R ${DIR}/salt/. ${SALT_DIR}/
         cp -R ${DIR}/templates/* ${SALT_DIR}/templates
-        cp -R ${DIR}/pillar/* ${SALT_DIR}/pillar
+        cp -R ${DIR}/salt/pillar/. ${PILLAR_DIR}
+
+        # setup the minimum pillar information
+        minimum_pillar
     fi
 }
 
@@ -39,26 +52,15 @@ randpass() {
     echo `</dev/urandom tr -dc A-Za-z0-9 | head -c16`
 }
 
-minimum_pillar() {
 
- if [ ! -r ${SALT_DIR}/pillar/database ] ; then
-
- mkdir ${SALT_DIR}/pillar/database
-    #this creates the minimum salt pillar for local usage (random mysql password)
-    echo "
-dbuser: phminion
-dbpass: $(randpass)" > ${SALT_DIR}/pillar/database/init.sls
-
-fi
-}
 # get salt
 get_bootstrap
 
 # copy the salt files
 copy_salt_files
 
-# setup the minimum pillar information
-minimum_pillar
 
-# run salt
-salt-call --local state.highstate -l debug
+# run salt if this is the master
+if [[ ${SRV} == *master* ]] ; then
+    salt-call --local state.highstate -l debug
+fi

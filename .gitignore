@@ -25,3 +25,6 @@ composer.phar
 # app/config/config.php is ignored into app/config/config.php
 # app/cache ignored into app/cache/.gitignore
 /backup/
+
+#sensitive setup files
+setup/ssh-key/*

@@ -1,17 +1,19 @@
 #!/bin/bash
 DIR=`dirname $(readlink -f $0)`
+. ${DIR}/setup/main.sh
+
+KEYFILE=/home/${MAIN_USER}/.ssh/id_rsa
 
 bootstrap() {
-    if [ ! -r /root/.ssh/id_rsa ] ; then
+    if [ ! -r ${KEYFILE} ] ; then
 
+        mkdir /home/${MAIN_USER}/.ssh
         if [ ! -r /etc/ssh/ssh_known_hosts ] ; then
             ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts
         fi
 
-        # if the id_rsa does exists, create one and re-run the script (to be sure the files are created)
-        echo -e "\n\n\n" | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
-        sudo sh ${DIR}/bootstrap.sh
-        exit
+        # if the id_rsa does exists, create one
+        echo -e "\n\n\n" | ssh-keygen -t rsa -N "" -f ${KEYFILE}
     fi
 }
 if [ ! -w /etc/hosts ] ; then
@@ -26,4 +28,4 @@ echo "--- Bootstrapping Phalcon Hosting server ---"
 sleep 1
 
 # bootstrap salt
-sudo sh ${DIR}/setup/salt.sh
+sudo bash ${DIR}/setup/salt.sh

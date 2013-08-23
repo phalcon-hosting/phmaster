@@ -2,7 +2,7 @@ phalcon:
   git.latest:
       - name: https://github.com/phalcon/cphalcon.git
       - rev: master
-      - runas: root
+      - runas: ubuntu
       - target: /var/local/setup/cphalcon
       - force: true
       - require:

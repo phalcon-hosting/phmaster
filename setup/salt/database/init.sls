@@ -59,29 +59,29 @@ phpmyadmin-user:
     - pkg: phpmyadmin
     - group: phpmyadmin
 
-#db-user:
-#    mysql_user.present:
-#        - name: {{ pillar.get("dbuser") }}
-#        - password: {{ pillar.get("dbpass")}}
-#        - host: '%'
-#        - connection_user: root
-#        - connection_pass: ''
-#    mysql_grants.present:
-#      - grant: all privileges
-#      - grant_option: true
-#      - user: {{ pillar.get("dbuser") }}
-#      - connection_user: root
-#      - connection_pass: ''
-#    require:
-#      - pkg: python-mysqldb
-#
-#root-user:
-#    mysql_user.absent:
-#        - name: root
-#        - connection_user: root
-#        - connection_pass: ''
-#    require:
-#        - pkg: python-mysqldb
+db-user:
+    mysql_user.present:
+        - name: {{ pillar["dbuser"] }}
+        - password: {{ pillar["dbpass"] }}
+        - host: '%'
+        - connection_user: root
+        - connection_pass: ''
+    mysql_grants.present:
+      - grant: all privileges
+      - grant_option: true
+      - user: {{ pillar["dbuser"] }}
+      - connection_user: root
+      - connection_pass: ''
+    require:
+      - pkg: python-mysqldb
+
+root-user:
+    mysql_user.absent:
+        - name: root
+        - connection_user: root
+        - connection_pass: ''
+    require:
+        - pkg: python-mysqldb
 
 
 phpmyadmin:
