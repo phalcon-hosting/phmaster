@@ -5,13 +5,19 @@ if [ -r /etc/salt/master ] ; then
 fi
 
 assign_role() {
+    MINION_HOST=$(remote_command "cat /etc/hostname")
 
-    echo "ASSIGNING ROLE ${ROLE}..."
+    if [ ! -r "/etc/salt/pki/master/minions/${MINION_HOST}" ] ; then
+        echo '>>> Action invalid, minion not available or not yet bootstrapped.'
+        exit;
+    fi
+    echo ">>> Assigning role ${ROLE}..."
+    echo
 
     remote_command "sudo salt-call --local grains.setval role ${ROLE}"
 
     # run salt again with the new role
-    salt '*' state.highstate -v
+    update_remote
 }
 
 test_minion() {
@@ -24,23 +30,30 @@ test_minion() {
     if [ ! -r ${KEYFILE} ] ; then
         echo "Cannot read keyfile ${KEYFILE}"
     fi
+    echo ">>> Attempting to connect to minion on: ${MINION_IP}"
     AUTH="${MINION_USER}@${MINION_IP} -i ${KEYFILE}"
-
     result=$(ssh -q -o BatchMode=yes -o ConnectTimeout=5 -o 'StrictHostKeyChecking no' ${AUTH} echo ok 2>&1)
 
     if [[ ! ${result} == *ok* ]] ; then
         echo ">>> Could not connect to ${MINION_IP}, please check given credentials"
         exit
     fi
-
+    echo
     echo ">>> Successfully connected to minion on: ${MINION_IP}"
+    sleep 1
     echo
 }
 
 run_bootstrap() {
     echo
-    echo ">>> Uploading bootstrap files..."
     MINION_SETUP_DIR="/home/${MINION_USER}/minion-bootstrap"
+
+    MINION_HOST=$(remote_command "cat /etc/hostname")
+    if [ -r "/etc/salt/pki/master/minions/${MINION_HOST}" ] ; then
+        echo ">>> This minion has already been bootstrapped! To re-bootstrap, run sudo salt-key -d '${MINION_HOST}'."
+        exit;
+    fi
+    echo ">>> Uploading bootstrap files..."
 
     remote_command "mkdir ${MINION_SETUP_DIR}"
     remote_command "sudo mkdir /etc/salt"
@@ -51,12 +64,25 @@ run_bootstrap() {
     remote_command "sudo sed -i -e 's/#master: salt/master: ${MASTER_IP}/g' /etc/salt/minion"
     remote_command "sudo ${MINION_SETUP_DIR}/bootstrap.sh"
 
-
+    echo
     echo '--- Minion bootstrap complete ---'
-    echo ">>> Please accept the new minion's key using: sudo salt-key -A"
-    echo '>>> After accepting, run ./controller.sh -w to update all the minions'
+    echo
+    echo '>>> Trying to auto-accept new minion...'
+    sleep 1
+    echo
+    salt-key -a ${MINION_HOST} -y
+    echo
+    echo '>>> Trying to update new minion, this could take a while...'
+    sleep 10
+    update_remote
+
 }
 
+update_remote() {
+    update_cmd="salt '"${MINION_HOST}"' state.highstate -v"
+    eval $update_cmd
+
+}
 remote_command() {
     CMD=${1}
 

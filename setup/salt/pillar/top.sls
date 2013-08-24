@@ -1,4 +1,6 @@
 base:
-  'role:database':
-      - match: grain
-      - database
+#  'role:database':
+#      - match: grain
+#      - database
+  '*':
+    - database

@@ -15,6 +15,24 @@ mariadb_repo:
     - mode: 644
     - makedirs: True
 
+
+mariadb-server:
+  pkg:
+    - installed
+    - require:
+      - pkgrepo: mariadb_repo
+      - file: /etc/mysql/my.cnf
+  service:
+    - name: mysql
+    - running
+    - enable: True
+    - watch:
+      - file: /etc/mysql/my.cnf
+    - require:
+      - pkg: mariadb-server
+      - pkg: python-mysqldb
+
+
 /etc/nginx/sites-enabled/vhost_phpmyadmin:
   file:
     - managed
@@ -25,22 +43,6 @@ mariadb_repo:
     - service: nginx
     - pkg: phpmyadmin
 
-mariadb-server:
-  pkg:
-    - installed
-    - require:
-      - pkgrepo: mariadb_repo
-      - file: /etc/mysql/my.cnf
-#      - file: /etc/mysql/debian.cnf
-  service:
-    - name: mysql
-    - running
-    - enable: True
-    - watch:
-      - file: /etc/mysql/my.cnf
-    - require:
-      - pkg: mariadb-server
-      - pkg: python-mysqldb
 
 phpmyadmin-group:
   group.present:
@@ -58,31 +60,6 @@ phpmyadmin-user:
   require:
     - pkg: phpmyadmin
     - group: phpmyadmin
-
-db-user:
-    mysql_user.present:
-        - name: {{ pillar["dbuser"] }}
-        - password: {{ pillar["dbpass"] }}
-        - host: '%'
-        - connection_user: root
-        - connection_pass: ''
-    mysql_grants.present:
-      - grant: all privileges
-      - grant_option: true
-      - user: {{ pillar["dbuser"] }}
-      - connection_user: root
-      - connection_pass: ''
-    require:
-      - pkg: python-mysqldb
-
-root-user:
-    mysql_user.absent:
-        - name: root
-        - connection_user: root
-        - connection_pass: ''
-    require:
-        - pkg: python-mysqldb
-
 
 phpmyadmin:
   pkg:

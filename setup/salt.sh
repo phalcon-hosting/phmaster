@@ -13,13 +13,14 @@ get_bootstrap(){
 
 minimum_pillar() {
 
- if [ ! -r ${PILLAR_DIR}database ] ; then
+DB_PILLAR=${PILLAR_DIR}/database/init.sls
+ if [ ! -r ${DB_PILLAR} ] ; then
 
  mkdir ${PILLAR_DIR}/database
     #this creates the minimum salt pillar for local usage (random mysql password)
     echo "
 dbuser: phminion
-dbpass: $(randpass)" >  ${PILLAR_DIR}/database/init.sls
+dbpass: $(randpass)" >  ${DB_PILLAR}
 
 fi
 }
