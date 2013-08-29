@@ -28,16 +28,11 @@ return new \Phalcon\Config(array(
         'locales'        => APPLICATION_PATH.'/messages/',
         'baseUri'        => '/',
     ),
-
     'auth' => array(
-
         'github' => array(
-
             'redirectUri' => "",
             'clientId'    => "",
-            'secretId'    => "",
-
-        ),
-
-    ),
+            'secretId'    => ""
+        )
+    )
 ));

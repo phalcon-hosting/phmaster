@@ -1,5 +1,4 @@
 <?php
-echo 'setting caches';
 $di->set('cache', function() use ($config){
 
 

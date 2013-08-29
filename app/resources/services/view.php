@@ -24,8 +24,7 @@ $di->set('view', function() use ($config) {
 
             $volt->getCompiler()->addFunction(
                 't',
-                function($key)
-                {
+                function($key) {
                     return "\\Hosting\\Translate::translate({$key})";
                 }
             );

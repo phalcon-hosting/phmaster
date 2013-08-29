@@ -14,6 +14,12 @@ use Phalcon\Http\Request;
 abstract class AbstractAuth {
 
 
+    protected $_redirectUriAuthorize;
+    protected $_clientId;
+    protected $_clientSecret;
+
+
+
     protected $di;
     protected $config;
 

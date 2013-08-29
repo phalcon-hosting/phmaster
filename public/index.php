@@ -26,8 +26,11 @@ $debug->listen();
  * Read the configuration
  */
 $config = include __DIR__ . "/../app/config/config.php";
+$config_dist = include __DIR__ . "/../app/config/config.dist.php";
 
-
+if($config->count() != $config_dist->count()) {
+    die('Fatal: It seems that the configuration file does not contain all the requirements set by the config.dist.php');
+}
 /**
  * Read auto-loader
  */
