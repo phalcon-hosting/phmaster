@@ -376,7 +376,9 @@
                 {# json_encode filter #}
                 {{ test|json_encode }}
             {% endif %}
-            {{ content() }}
+            {% block content %}
+            {% endblock %}
+
         </div>
     </div>
     <!-- END Page Content -->

@@ -1,4 +1,8 @@
-<?php use Phalcon\Tag; ?>
+{%  extends "layouts/pannel.volt" %}
+
+
+{% block content %}
+    <?php use Phalcon\Tag; ?>
 
 {% if error is defined %}
     {{ error }}
@@ -48,3 +52,4 @@
 
     {{ end_form() }}
 </p>
+{% endblock %}

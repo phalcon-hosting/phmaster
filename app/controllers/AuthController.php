@@ -57,6 +57,12 @@ class AuthController extends ControllerBase
 
     }
 
+    public function loginAction(){
+        if($this->di->get("auth")->isLogged()){
+            return $this->getDi()->get("response")->redirect();
+        }
+    }
+
 
     /**
      * login from github
