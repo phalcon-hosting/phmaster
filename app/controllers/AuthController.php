@@ -39,20 +39,19 @@ class AuthController extends ControllerBase
 
     /**
      * once an user is authenticated we call this method to register him in the session
-     * TODO : move this in a better place ( for instance PH\Master\Session::login($user) )
      * @param User $user
      */
     protected function _sessionAuthRegister(User $user){
-        $this->session->set('identity', $user->getId());
-        $this->session->set('identity-gravatar', $user->getGravatarId());
-        $this->session->set('identity-email', $user->getEmail());
+        $this->di->get("auth")->setLogged($user);
     }
 
-
+    /**
+     * Logout the user
+     * @return \Phalcon\Http\ResponseInterface
+     */
     public function logoutAction(){
-        $this->session->remove('identity');
-        $this->session->remove('identity-gravatar');
-        $this->session->remove('identity-email');
+        if($this->di->get("auth")->isLogged())
+            $this->di->get("auth")->logout();
 
         return $this->response->redirect();
 
