@@ -1,5 +1,5 @@
 <?php
-use PH\Master\AclBuilder as AclBuilder;
+use \PH\Master\AclBuilder as AclBuilder;
 /**
  * @author Stephen Hoogendijk
  * @copyright PhalconHosting
