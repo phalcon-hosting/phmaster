@@ -19,12 +19,18 @@ basepackages:
       - curl
       - rsync
       - git-flow
+      - quota
 
 
 removepackages:
   pkg.purged:
-      - pkgs:
-        - apache2
+    - pkgs:
+      - apache2
+kill-apache:
+  service:
+    - name: apache2
+    - sig: apache2
+    - dead
 
 php5-cli:
     file.managed:

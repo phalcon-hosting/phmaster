@@ -1,11 +1,11 @@
 server {
-        listen   80;
+        listen  80;
 
 
-        root [WWW_DIR]/public;
+        root WWW_DIR/public;
         index index.php index.html index.htm;
 
-        server_name [WWW_ADDRESS];
+        server_name SERVER_NAMES;
 
         try_files $uri $uri/ @rewrite;
 
@@ -24,10 +24,8 @@ server {
         error_page 404 /404.html;
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
-              root [WWW_DIR]/public;
+              root WWW_DIR/public;
         }
-
-
 
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         location ~ \.php$ {

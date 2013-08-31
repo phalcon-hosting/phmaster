@@ -1,11 +1,12 @@
 base:
   '*':
-    - requirements
-    - baseserver
-    - phalcon
+      - requirements
+      - baseserver
+      - phalcon
   'role:webserver':
-    - match: grain
-    - webserver
+      - match: grain
+      - webserver
+      - webserver.vhosts
   'role:database':
       - match: grain
       - database
@@ -15,4 +16,4 @@ base:
       - match: grain
       - memcache
   'master*':
-    - master
+      - master
