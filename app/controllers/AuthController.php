@@ -8,6 +8,7 @@
 use \PH\Master\User\Register as Register;
 use \PH\Master\Auth\GithubAuth;
 use \PH\Master\Model\User;
+use \Phalcon\Http\ResponseInterface;
 
 /**
  * Class AuthController
@@ -160,5 +161,34 @@ class AuthController extends ControllerBase
 
     }
 
+    /**
+     * This action allows google authentication
+     */
+    public function googleAction() {
+        $this->view->disable();
+
+        $authentication = $this->googleAuth;
+
+        try {
+            if(!$authentication->checkRequest($this->request)) {
+                // When FALSE init google authentication
+                $authentication->askAuth();
+            }
+            else {
+                // Log the user
+                try{
+                    // create the user from the request
+                    $user = $authentication->accessApi($this->request);
+                }
+                catch (\PH\Master\Auth\BadResponseException $exception){
+                    $user = null;
+                }
+            }
+        }
+        catch (\PH\Master\Auth\BadRequestException $exception) {
+            $this->flash->error($exception->getMessage());
+        }
+
+    }
 }
 

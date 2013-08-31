@@ -16,10 +16,11 @@ abstract class OAuth2 extends AbstractAuth {
 
 
     /**
+     * Accepts the name for oauth ands configuration array and sets up the authentications
      * @param $oauthName
      * @param $config
      */
-    public function setupFromConfig($oauthName,$config){
+    public function setupFromConfig ($oauthName, $config){
         $this->_redirectUriAuthorize = $config->auth->get($oauthName)->redirectUri;
         $this->_clientId = $config->auth->get($oauthName)->clientId;
         $this->_clientSecret = $config->auth->get($oauthName)->secretId;

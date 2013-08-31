@@ -43,4 +43,32 @@ abstract class UserFactory {
 
     }
 
+    /**
+     * Reads the data to get the user (just instantiated)
+     * calling this method assumes that you have already checked that $data was an array
+     *
+     * @param $data Google data from https://api.google.com/user?access_token=???
+     * @param $token array with 2 keys: access_token and token_type
+     * @return \PH\Master\Model\User
+     */
+    public static function fromGoogleApi($data,$token){
+        $user = User::findFirstByAccessToken($token['access_token']);
+
+        if($user === false){
+            $user = new User();
+            $user->setAccessToken($token['access_token']);
+            $user->setTokenType($token['token_type']);
+            $user->setEmail($data["email"]);
+        }
+
+        $user->setUsername($data["login"]);
+
+        $user->setName($data["name"]);
+
+        $user->setGravatarId($data["gravatar_id"]);
+
+        return $user;
+
+    }
+
 }
