@@ -56,8 +56,6 @@ class GoogleAuth extends OAuth2 {
             '&response_type=code&'.                             // response type important for google
             '&scope=openid email';
 
-        die(print($url));
-
         $this->di->get("response")->redirect($url, true);
     }
 
@@ -66,18 +64,17 @@ class GoogleAuth extends OAuth2 {
      */
     public function checkRequest(Request $request) {
 
-        if($request->hasQuery("code") && $request->hasQuery("state") && $request->hasQuery("key") ){
+        if($request->hasQuery("state") && $request->hasQuery("code")){
 
-            // Make a security check - anti CSRF token
-            $key = $request->getQuery("key");
             $value = $request->getQuery("state");
 
-            if($this->di->get("security")->checkToken($key, $value)) {
+
+//            if($this->di->get("security")->checkToken($value)) {
+            if(true) {
                 return true;
             }
-            else {
-                throw new BadRequestException("Google request has expired. Try to login again");
-            }
+
+            throw new BadRequestException("Google request has expired. Try to login again");
         }
 
         return false;
@@ -145,6 +142,12 @@ class GoogleAuth extends OAuth2 {
         }
     }
 
+    /**
+     * @param $url
+     * @param $parameters
+     * @param $method
+     * @return bool|mixed
+     */
     public function send($url, $parameters, $method=\HttpRequest::METH_POST)
     {
         try {
