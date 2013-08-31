@@ -32,7 +32,6 @@ class ErrorController extends ControllerBase
      */
     public function notFoundAction() {
         $this->response->setStatusCode(404, "Not Found");
-        echo '<pre> A NICE 404 MESSAGE </pre>';
     }
 
     public function notAuthenticatedAction() {
@@ -45,7 +44,6 @@ class ErrorController extends ControllerBase
      */
     public function fatalAction() {
         $this->response->setStatusCode(500, "Error");
-        echo '<pre> A NICE 500 MESSAGE </pre>';
     }
 }
 
