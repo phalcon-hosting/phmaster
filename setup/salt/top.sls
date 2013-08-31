@@ -9,7 +9,8 @@ base:
   'role:database':
       - match: grain
       - database
-      - database.mariadb_user
+      - database.main_user
+      - database.user_accounts
   'role:memcache':
       - match: grain
       - memcache

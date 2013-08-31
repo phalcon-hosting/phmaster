@@ -24,7 +24,7 @@ fi
 # run the initial bootstrapping
 bootstrap
 
-echo "--- Bootstrapping Phalcon Hosting server ---"
+echo ">>> Bootstrapping Phalcon Hosting server"
 sleep 1
 
 # bootstrap salt

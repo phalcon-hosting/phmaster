@@ -5,6 +5,7 @@ nginx-packages:
   pkg.installed:
     - pkgs:
       - nginx
+      - beanstalkd
 
 nginx-conf:
     file.managed:

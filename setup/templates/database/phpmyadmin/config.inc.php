@@ -31,6 +31,14 @@ $i = 0;
 // You can disable a server config entry by setting host to ''.
 $i++;
 
+$dbuser='test';
+$dbpass='TEST_PASS';
+$basepath='';
+$dbname='test';
+$dbserver='';
+$dbport='';
+$dbtype='mysql';
+
 /**
  * Read configuration from dbconfig-common
  * You can regenerate it using: dpkg-reconfigure -plow phpmyadmin
@@ -48,7 +56,7 @@ if (!empty($dbname)) {
     $cfg['Servers'][$i]['auth_type'] = 'cookie';
     /* Server parameters */
     if (empty($dbserver)) $dbserver = 'localhost';
-    $cfg['Servers'][$i]['host'] = $dbserver;
+    $cfg['Servers'][$i]['host'] = 3306;
 
     if (!empty($dbport) || $dbserver != 'localhost') {
         $cfg['Servers'][$i]['connect_type'] = 'tcp';

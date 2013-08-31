@@ -1,26 +1,46 @@
 #!/bin/bash
 DIR=`dirname $(readlink -f $0)`
 SALT_DIR='/srv/salt'
-SSH_DIR='/home/ubuntu/.ssh'
-SRV=$(hostname)
+HOME_DIR=/home/ubuntu
+SSH_DIR="${HOME_DIR}/.ssh"
 PILLAR_DIR='/srv/pillar'
+OWN_HOST=$(hostname --fqdn)
+
+randpass() {
+    echo `</dev/urandom tr -dc A-Za-z0-9 | head -c16`
+}
+
+DB_PILLAR=${PILLAR_DIR}/database.sls
+ROOT_PASS=$(randpass)
+TEST_PASS=$(randpass)
 
 . ${DIR}/main.sh
 
 get_bootstrap(){
+    if [[ ${OWN_HOST} == *master* ]] ; then
+        if [ ! -r /etc/salt ] ; then
+            sudo mkdir /etc/salt
+        fi
+
+        sudo cp ${DIR}/templates/minion.conf /etc/salt/minion
+        sudo sed -i -e 's/#master: salt/master: localhost/g' /etc/salt/minion
+    fi
+
     wget -O - http://bootstrap.saltstack.org | sudo sh
+
+
 }
 
 minimum_pillar() {
 
-DB_PILLAR=${PILLAR_DIR}/database/init.sls
  if [ ! -r ${DB_PILLAR} ] ; then
 
- mkdir ${PILLAR_DIR}/database
     #this creates the minimum salt pillar for local usage (random mysql password)
     echo "
-dbuser: phminion
-dbpass: $(randpass)" >  ${DB_PILLAR}
+root_password: ${ROOT_PASS}
+test_password: ${TEST_PASS} " >  ${DB_PILLAR}
+
+sudo sed -i -e "s/\:TEST_PASS/'${TEST_PASS}'/g" ${PILLAR_DIR}/database_users.sls
 
 fi
 }
@@ -28,7 +48,7 @@ fi
 copy_salt_files(){
 
     # copy master-only files
-    if [[ ${SRV} == *master* ]] ; then
+    if [[ ${OWN_HOST} == *master* ]] ; then
         echo ">>> Master server detected"
         echo
         sleep 2
@@ -42,16 +62,14 @@ copy_salt_files(){
         cp -R ${DIR}/salt/. ${SALT_DIR}/
         cp -R ${DIR}/salt/. ${SALT_DIR}/
         cp -R ${DIR}/templates/* ${SALT_DIR}/templates
-        cp -R ${DIR}/salt/pillar/. ${PILLAR_DIR}
+        cp -R ${DIR}/pillar/. ${PILLAR_DIR}
 
         # setup the minimum pillar information
         minimum_pillar
     fi
+
 }
 
-randpass() {
-    echo `</dev/urandom tr -dc A-Za-z0-9 | head -c16`
-}
 
 
 # get salt
@@ -62,6 +80,10 @@ copy_salt_files
 
 
 # run salt if this is the master
-if [[ ${SRV} == *master* ]] ; then
+if [[ ${OWN_HOST} == *master* ]] ; then
     salt-call --local state.highstate -l debug
+
+    salt-key -a ${OWN_HOST} -y
+    echo
+    echo '>>> Master server successfully bootstraped!'
 fi

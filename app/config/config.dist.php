@@ -30,7 +30,7 @@ return new \Phalcon\Config(array(
     ),
     'auth' => array(
         'github' => array(
-            'redirectUri' => "",
+            'redirectUri' => BASE_URL."/auth/github",
             'clientId'    => "",
             'secretId'    => ""
         )

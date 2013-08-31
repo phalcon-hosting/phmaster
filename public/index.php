@@ -12,12 +12,17 @@ defined('APPLICATION_PATH')
 defined('APPLICATION_ENV')
 || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
 
+defined('BASE_URL')
+|| define('BASE_URL', sprintf('%s://%s',strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')
+=== FALSE ? 'http' : 'https', $_SERVER['HTTP_HOST']));
+
 
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/library'),
     realpath(APPLICATION_PATH . '/models'),
     get_include_path()
 )));
+
 
 $debug = new \Phalcon\Debug();
 $debug->listen();
@@ -40,7 +45,6 @@ include __DIR__ . "/../app/resources/loader.php";
  * Read services
  */
 include __DIR__ . "/../app/resources/services.php";
-
 
 
 /**

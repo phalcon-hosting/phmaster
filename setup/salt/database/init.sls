@@ -15,7 +15,6 @@ mariadb_repo:
     - mode: 644
     - makedirs: True
 
-
 mariadb-server:
   pkg:
     - installed
@@ -23,26 +22,37 @@ mariadb-server:
       - pkgrepo: mariadb_repo
       - file: /etc/mysql/my.cnf
   service:
-    - name: mysql
-    - running
-    - enable: True
-    - watch:
+   - name: mysql
+   - dead
+   - enable: False
+   - reload: True
+   - require:
+      - pkgrepo: mariadb_repo
       - file: /etc/mysql/my.cnf
-    - require:
-      - pkg: mariadb-server
-      - pkg: python-mysqldb
-
 
 /etc/nginx/sites-enabled/vhost_phpmyadmin:
-  file:
-    - managed
+  file.managed:
     - source: salt://templates/database/phpmyadmin/vhost_phpmyadmin
     - mode: 644
     - makedirs: True
-  require:
-    - service: nginx
-    - pkg: phpmyadmin
 
+/etc/phpmyadmin/config.inc.php:
+  file.managed:
+    - source: salt://templates/database/phpmyadmin/config.inc.php
+    - mode: 644
+    - makedirs: True
+    - require:
+      - pkg: phpmyadmin
+
+
+host-phpmyadmin:
+    file.sed:
+      - name: /etc/nginx/sites-enabled/vhost_phpmyadmin
+      - before: HOSTNAME
+      - after: {{ grains['host'] }}
+      - limit: 'server_name '
+      - require:
+        - pkg: phpmyadmin
 
 phpmyadmin-group:
   group.present:
@@ -57,21 +67,40 @@ phpmyadmin-user:
     - gid: 7649
     - groups:
       - phpmyadmin
-  require:
-    - pkg: phpmyadmin
-    - group: phpmyadmin
+    - require:
+      - pkg: phpmyadmin
+      - group: phpmyadmin
 
 phpmyadmin:
   pkg:
     - installed
-  require:
-    - service: mariadb-server
 
 php-fpm-restart:
   service:
     - name: php5-fpm
-    - running
-    - enable: True
+    - dead
+    - enable: False
     - reload: True
     - watch:
       - file: /etc/nginx/sites-enabled/vhost_phpmyadmin
+
+
+mariadb-restart:
+  service:
+    - name: mysql
+    - running
+    - enable: True
+    - reload: True
+    - require:
+      - pkg: phpmyadmin
+      - pkg: mariadb-server
+
+
+
+/etc/phpmyadmin/config.inc.php:
+  file.sed:
+    - before: "'TEST_PASS'"
+    - after: "'{{ pillar["test_password"] }}'"
+    - limit: '^dbpass='
+    - require:
+      -  pkg: phpmyadmin

@@ -1,10 +1,10 @@
 server {
         listen 8112;
 
-        root /var/www;
+        root /usr/share/phpmyadmin;
         index index.php index.html index.htm;
 
-        server_name sqlservername;
+        server_name HOSTNAME;
 
         try_files $uri $uri/;
 
@@ -19,11 +19,11 @@ server {
         error_page 404 /404.html;
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
-              root /var/www;
+              root /usr/share/phpmyadmin;
         }
 
-        location /phpmyadmin {
-               root /usr/share/;
+        location / {
+               root /usr/share/phpmyadmin;
                index index.php index.html index.htm;
                location ~ ^/phpmyadmin/(.+\.php)$ {
                       root /usr/share/;
@@ -42,13 +42,11 @@ server {
                      include fastcgi_params;
 
                }
-               location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
-                       root /usr/share/;
-               }
+
         }
 
         location /phpMyAdmin {
-               rewrite ^/* /phpmyadmin last;
+               rewrite ^/* / last;
         }
 
        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000

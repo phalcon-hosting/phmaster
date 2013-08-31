@@ -48,7 +48,7 @@ run_bootstrap() {
     echo
     MINION_SETUP_DIR="/home/${MINION_USER}/minion-bootstrap"
 
-    MINION_HOST=$(remote_command "cat /etc/hostname")
+    MINION_HOST=$(remote_command "hostname --fqdn")
     if [ -r "/etc/salt/pki/master/minions/${MINION_HOST}" ] ; then
         echo ">>> This minion has already been bootstrapped! To re-bootstrap, run sudo salt-key -d '${MINION_HOST}'."
         exit;
@@ -65,7 +65,7 @@ run_bootstrap() {
     remote_command "sudo ${MINION_SETUP_DIR}/bootstrap.sh"
 
     echo
-    echo '--- Minion bootstrap complete ---'
+    echo '>>> Minion bootstrap complete'
     echo
     echo '>>> Trying to auto-accept new minion...'
     sleep 1
