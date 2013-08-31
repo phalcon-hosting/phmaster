@@ -14,7 +14,7 @@
                 <input type="text" name="email" />
 
                 <label>{{ t("password") }}</label>
-                <input type="text" name="email" />
+                <input type="password" name="password" />
 
                 <input class="ph-login" type="submit" value="{{ t("Sign in") }}" />
                 <div class="ph-register-link"><a href="/register" >{{ t("Or create an account") }}</a></div>
