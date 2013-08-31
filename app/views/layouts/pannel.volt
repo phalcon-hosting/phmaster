@@ -275,16 +275,13 @@
     <!-- User Menu -->
     <li class="dropdown dropdown-user">
         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-            {% if this.session.get("identity")>0 %}
-            <img class="brand-logo" src="https://secure.gravatar.com/avatar/{{ this.session.get("identity-gravatar") }}?s=32" />
-            {%  else  %}
 
-            {%  endif %}
+            <img class="brand-logo" src="https://secure.gravatar.com/avatar/{{ this.session.get("identity-gravatar") }}?s=32" />
+
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <!-- Just a button demostrating how loading of widgets could happen, check main.js- - uiDemo() -->
-            {% if this.session.get("identity")>0 %}
             <li>
                 <a href="javascript:void(0)" class="loading-on"><i class="icon-refresh"></i> Refresh</a>
             </li>
@@ -301,11 +298,7 @@
             <li>
                 <a href="/auth/logout"><i class="icon-lock"></i> Log out</a>
             </li>
-            {%  else  %}
-            <li>
-                <a href="/auth/github"><i class="icon-github-alt"></i> Login with github</a>
-            </li>
-            {%  endif %}
+
         </ul>
     </li>
     <!-- END User Menu -->

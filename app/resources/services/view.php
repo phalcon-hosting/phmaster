@@ -1,6 +1,7 @@
 <?php
 use Phalcon\Mvc\View,
-Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+    PH\Master\Translate,
+    Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
 /**
  * Setting up the view component
@@ -25,7 +26,7 @@ $di->set('view', function() use ($config) {
             $volt->getCompiler()->addFunction(
                 't',
                 function($key) {
-                    return "\\Hosting\\Translate::translate({$key})";
+                    return Translate::translate($key);
                 }
             );
 

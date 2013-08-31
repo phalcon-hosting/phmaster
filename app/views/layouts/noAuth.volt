@@ -31,7 +31,7 @@
     {{ javascript_include('js/main.js') }}
     <link rel="icon" type="image/ico" href="/favicon.png"/>
 </head>
-<body>
+<body class="no-auth">
     {% block content %}
     {% endblock %}
 </body>

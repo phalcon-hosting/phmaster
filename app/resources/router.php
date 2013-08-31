@@ -10,5 +10,13 @@ $router->add("/login",
     )
 );
 
+// TODO : change it to authController::registerAction
+$router->add("/register",
+    array(
+        "controller" => "auth",
+        "action"     => "register",
+    )
+);
+
 
 return $router;

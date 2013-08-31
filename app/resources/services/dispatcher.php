@@ -6,13 +6,14 @@ $di->set('dispatcher', function() use ($config){
 
     $dispatcher = new \Phalcon\Mvc\Dispatcher();
 
+    $eventsManager = new \Phalcon\Events\Manager();
+
     // when working on the development environment, we need the debugger to show us what is going bad
     if("development" != APPLICATION_ENV){
 
-        //Create an event manager
-        $eventsManager = new \Phalcon\Events\Manager();
-
-        //Attach a listener for 404 and other errors
+        /*
+         * Attach a listener for 404 and other errors
+         */
         $eventsManager->attach("dispatch:beforeException", function($event, $dispatcher, $exception) {
 
             //Handle 404 exceptions
@@ -38,10 +39,32 @@ $di->set('dispatcher', function() use ($config){
             return false;
         });
 
-        //Bind the eventsManager to the view component
-        $dispatcher->setEventsManager($eventsManager);
 
     }
+
+    /**
+     * attach a listener to redirect to the login page if not logged
+     */
+    $eventsManager->attach("dispatch:beforeExecuteRoute", function($event, $dispatcher, $exception) {
+        /* @var $dispatcher \Phalcon\Dispatcher */
+
+        $authService = $dispatcher->getDi()->get("auth");
+
+        // if user is not logged and not in the AuthController, then we redirect him to the login screen
+        if (
+            !$authService->isLogged()
+            && $dispatcher->getControllerName() != "auth"
+        ) {
+            return $dispatcher->getDi()->get("response")->redirect('login');
+        }
+
+        return true;
+
+    });
+
+
+    //Bind the eventsManager to the view component
+    $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
 });
