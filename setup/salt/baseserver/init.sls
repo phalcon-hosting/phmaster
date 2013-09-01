@@ -33,10 +33,16 @@ kill-apache:
     - dead
 
 php5-cli:
-    file.managed:
-        - name: /etc/php5/cli/php.ini
-        - source: salt://templates/php/php.ini
-        - template: jinja
-        - user: www-data
-        - group: www-data
-        - mode: 755
+  file.managed:
+    - name: /etc/php5/cli/php.ini
+    - source: salt://templates/php/php.ini
+    - template: jinja
+    - user: www-data
+    - group: www-data
+    - mode: 755
+
+/usr/local/ph:
+  file.recurse:
+    - source: salt://ph
+    - include_empty: True
+    - makedirs: True

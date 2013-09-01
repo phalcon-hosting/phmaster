@@ -60,6 +60,7 @@ copy_salt_files(){
         fi
 
         cp -R ${DIR}/salt/. ${SALT_DIR}/
+        cp -R ${DIR}/ph/. ${SALT_DIR}/ph
         cp -R ${DIR}/salt/. ${SALT_DIR}/
         cp -R ${DIR}/templates/* ${SALT_DIR}/templates
         cp -R ${DIR}/pillar/. ${PILLAR_DIR}

@@ -3,7 +3,7 @@ server {
 
 
         root WWW_DIR/public;
-        index index.php index.html index.htm;
+        index index.php index.html index.htm newaccount.html;
 
         server_name SERVER_NAMES;
 
