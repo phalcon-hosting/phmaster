@@ -63,6 +63,9 @@ include __DIR__."/services/dispatcher.php";
 // load the routes
 include __DIR__ . "/services/router.php";
 
+// load the routes
+include __DIR__ . "/services/notification.php";
+
 // load auth services
 
 // load the config into the DI

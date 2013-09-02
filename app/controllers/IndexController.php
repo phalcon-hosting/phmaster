@@ -22,6 +22,12 @@ class IndexController extends ControllerBase
     {
 
 
+        $n=new Notification();
+        $n->message="test";
+        $n->type="warning";
+        $n->creation="2010-01-02 25:00";
+        $this->notificator->addNotification($n);
+
     }
 
     public function generateAction() {
