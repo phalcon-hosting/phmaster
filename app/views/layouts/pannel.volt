@@ -363,12 +363,18 @@
         <!-- END Navigation info -->
 
         <!-- FullCalendar -->
-        <div id="messages">{{ flash.output() }}</div>
         <div class="row-fluid">
             {% if test is defined %}
                 {# json_encode filter #}
                 {{ test|json_encode }}
             {% endif %}
+
+
+            {% block content_title %}
+            {% endblock %}
+
+            <div id="messages">{{ flash.output() }}</div>
+
             {% block content %}
             {% endblock %}
 
