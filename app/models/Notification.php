@@ -11,8 +11,13 @@ class Notification extends \Phalcon\Mvc\Model
     const USER_ID = 'user_id';
     const TYPE = 'type';
     const MESSAGE = 'message';
-    const CREATION = 'creation';
+    const CREATED_ON = 'created_on';
     const READ = 'read';
+
+    // list of type, think to update  app/view/partials/notify-widget/notify-widget.volt
+    const TYPE_ERROR   = "0";
+    const TYPE_WARNING = "1";
+    const TYPE_SUCCESS = "2";
 
     /**
      *
@@ -42,7 +47,7 @@ class Notification extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $creation;
+    public $created_on;
 
     /**
      *
@@ -67,7 +72,7 @@ class Notification extends \Phalcon\Mvc\Model
             'user_id' => 'user_id',
             'type' => 'type',
             'message' => 'message',
-            'creation' => 'creation',
+            'created_on' => 'created_on',
             'read' => 'read'
         );
     }

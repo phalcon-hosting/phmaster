@@ -27,6 +27,18 @@ class AuthService extends Injectable  {
         return $this->getDI()->get("session")->get("identity")>0;
     }
 
+    /**
+     * get the id of the authenticated user
+     * @return int id of the user (0 means not logged)
+     */
+    public function getUserId(){
+        if($this->isLogged()){
+            $session = $this->getDI()->get("session");
+            return $session->get('identity');
+        }
+
+        return 0;
+    }
 
     /**
      * Register the user into the session

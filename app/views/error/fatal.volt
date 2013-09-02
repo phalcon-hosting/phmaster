@@ -1,4 +1,4 @@
-{%  extends "layouts/pannel.volt" %}
+{%  extends "layouts/panel.volt" %}
 
 {% block content %}
 

@@ -45,4 +45,10 @@ class ControllerBase extends Controller
         return $this->translator->translate($key, $params);
     }
 
+    public function afterExecuteRoute($dispatcher)
+    {
+        if(($id = $this->getDI()->get("auth")->getUserId())>0)
+            $this->notificator->initFromUser($id);
+    }
+
 }

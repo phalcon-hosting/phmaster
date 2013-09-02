@@ -29,6 +29,11 @@
     {{ javascript_include('js/vendor/bootstrap.min.js') }}
     {{ javascript_include('js/plugins.js') }}
     {{ javascript_include('js/main.js') }}
+
+    <!-- Javascript for PH -->
+    {{ javascript_include('js/locale/phlocale-en.js') }}
+    {{ javascript_include('js/ph.js') }}
+
     <link rel="icon" type="image/ico" href="/favicon.png"/>
 </head>
 <body>

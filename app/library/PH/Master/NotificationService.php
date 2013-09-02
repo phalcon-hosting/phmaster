@@ -10,7 +10,7 @@ namespace PH\Master;
 use Phalcon\DI\Injectable;
 
 /**
- * This class helps to draw notifications on the phalcon hosting pannel.
+ * This class helps to draw notifications on the phalcon hosting panel.
  *
  * Class NotificationService
  * @package PH\Master
@@ -58,15 +58,41 @@ class NotificationService extends Injectable implements \Countable , \IteratorAg
     }
 
     /**
-     * (from Countable) may be used to count notification for a certain type
+     * @return array list of the types present in the service
+     */
+    public function listTypes(){
+
+        $types=array();
+
+        foreach($this as $notif){
+            if(!in_array($notif->type,$types))
+                $types[]=$notif->type;
+        }
+
+        return $types;
+    }
+
+    /**
+     * (from Countable) may be used to count notification for a certain type, also only unread/undead/all
      * @param null $type
+     * @param boolean|null $unread null for all notification true for only unread false for only read
      * @return int
      */
-    public function count($type=null){
+    public function count($type=null,$unread=null){
         if(null===$type)
-            return count($this->_notifications);
+            $list = $this->_notifications;
+        else
+            $list = $this->getNotifications($type);
 
-        return count($this->getNotifications($type));
+        if(null === $unread)
+            return count($list);
+
+        $count=0;
+        foreach($list as $notif){
+            if($notif->read == !$unread)
+                $count++;
+        }
+        return $count;
     }
 
     /**
@@ -75,6 +101,24 @@ class NotificationService extends Injectable implements \Countable , \IteratorAg
      */
     public function getIterator() {
         return new \ArrayIterator($this->_notifications);
+    }
+
+
+    public function initFromUser($userId){
+        $resultset = $this->modelsManager->createBuilder()
+            ->from("Notification")
+            ->where("user_id = :uid:",array("uid"=>$userId))
+            ->orWhere(" user_id is null")
+            ->orderBy("Notification.created_on")
+            ->getQuery()
+            ->execute();
+
+        $this->_notifications = array();
+
+        foreach($resultset as $notif){
+            $this->addNotification($notif);
+        }
+
     }
 
 }
