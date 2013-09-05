@@ -5,13 +5,6 @@ PH_DIR=/usr/local/ph
 
 KEYFILE=/home/${MAIN_USER}/.ssh/id_rsa
 
-export FORCE_MASTER=false
-
-if [ $1 = '-f' ] ; then
-    echo '>>> Forcing master mode'
-    export FORCE_MASTER=true
-fi
-
 bootstrap() {
     . /etc/lsb-release
 
@@ -57,4 +50,4 @@ echo ">>> Bootstrapping Phalcon Hosting server"
 sleep 1
 
 # bootstrap salt
-sudo bash ${DIR}/setup/salt.sh
+sudo bash ${DIR}/setup/salt.sh "$1"

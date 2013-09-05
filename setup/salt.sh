@@ -6,7 +6,7 @@ SSH_DIR="${HOME_DIR}/.ssh"
 PILLAR_DIR='/srv/pillar'
 OWN_HOST=$(hostname --fqdn)
 
-if [ "$FORCE_MASTER" = true ] ; then
+if [ $1 = '-f' ] ; then
     OWN_HOST='masterforced'
 fi
 
