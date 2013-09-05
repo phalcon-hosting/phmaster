@@ -6,6 +6,10 @@ SSH_DIR="${HOME_DIR}/.ssh"
 PILLAR_DIR='/srv/pillar'
 OWN_HOST=$(hostname --fqdn)
 
+if [ ${FORCE_MASTER} = true ] ; then
+    OWN_HOST='masterforced'
+fi
+
 randpass() {
     echo `</dev/urandom tr -dc A-Za-z0-9 | head -c16`
 }
