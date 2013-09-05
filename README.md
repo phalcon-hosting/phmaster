@@ -2,6 +2,8 @@ This repository contains code that belongs to PhalconHosting.
 
 --- This code is meant to be deployed only by the PhalconHosting master ---
 
+[![Build Status](https://drone.io/github.com/Phalcon-hosting/phmaster/status.png)](https://drone.io/github.com/Phalcon-hosting/phmaster/latest)
+
 Requirements
 -------------
 
