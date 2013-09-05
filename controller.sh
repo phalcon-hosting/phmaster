@@ -8,6 +8,7 @@ MINION_IP=false
 MINION_USER=false
 MINION_PASS=false
 BOOTSTRAP=false
+TEST_MODE=false
 
 . ${DIR}/setup/main.sh
 . ${DIR}/setup/controller_functions.sh
@@ -23,6 +24,7 @@ helpopts() {
     echo "-r [database|memcache|webserver] - Assign a role"
     echo "-s run this script silent"
     echo "-w Update all the minions"
+    echo "-t Run in test mode"
 }
 
 while getopts ":as-helpwbr:m:g:u:k:" opt; do
@@ -54,6 +56,10 @@ while getopts ":as-helpwbr:m:g:u:k:" opt; do
         test_minion
         BOOTSTRAP=true
         echo "--- Bootstrappig minion on IP: ${MINION_IP} ---"
+      ;;
+      t)
+        TEST_MODE=true
+        echo ">>> Running in test mode"
       ;;
       m)
         MINION_IP=$OPTARG

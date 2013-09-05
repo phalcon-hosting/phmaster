@@ -1,5 +1,5 @@
 include:
-  - php-fpm
+  - webserver.phpfpm
 
 nginx-packages:
   pkg.installed:
@@ -33,3 +33,9 @@ nginx:
         - name: nginx
     service.running:
         - enable: True
+
+nginx-group:
+  group.present:
+    - name: nginx-users
+    - gid: 7650
+    - system: True

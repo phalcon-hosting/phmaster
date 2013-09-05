@@ -12,6 +12,7 @@ basepackages:
       - php5-xsl
       - php5-intl
       - php5-sqlite
+      - php-pear
       - nmap
       - unzip
       - make
@@ -39,6 +40,13 @@ php5-cli:
     - template: jinja
     - user: www-data
     - group: www-data
+    - mode: 755
+
+/etc/ssh/sshd_config:
+  file.managed:
+    - source: salt://templates/ssh/sshd_config
+    - template: jinja
+    - user: root
     - mode: 755
 
 /usr/local/ph:
