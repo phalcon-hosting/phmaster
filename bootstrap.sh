@@ -5,11 +5,11 @@ PH_DIR=/usr/local/ph
 
 KEYFILE=/home/${MAIN_USER}/.ssh/id_rsa
 
-FORCE_MASTER=false
+export FORCE_MASTER=false
 
 if [ $1 = '-f' ] ; then
     echo '>>> Forcing master mode'
-    FORCE_MASTER=true
+    export FORCE_MASTER=true
 fi
 
 bootstrap() {
