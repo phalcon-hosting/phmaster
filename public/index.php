@@ -23,6 +23,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path()
 )));
 
+if(!is_readable(APPLICATION_PATH . '/../vendor/autoload.php')) {
+    die('Fatal: Please run wget https://getcomposer.org/installer && php installer && php composer.phar install');
+}
 
 $debug = new \Phalcon\Debug();
 $debug->listen();
