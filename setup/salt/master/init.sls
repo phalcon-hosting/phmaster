@@ -20,7 +20,6 @@ vhost_master:
       alt_port: 8888
     - require:
       - pkg: nginx
-      - file.directory: /usr/local/ph
 
 reload-nginx:
   service:
