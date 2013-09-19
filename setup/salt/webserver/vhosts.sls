@@ -33,13 +33,12 @@
     - shell: /bin/bash
     - groups:
       - nginx-users
-      - www-data
     - require:
       - pkg: nginx
       - group.present: nginx-users
       - file.directory: {{ www_dir }}
 
-vhost_vhost_{{ vhost["user"] }}:
+vhost_{{ vhost["user"] }}:
   file.managed:
     - name: /etc/nginx/sites-enabled/vhost_{{ vhost["user"] }}
     - source: salt://templates/vhost_file

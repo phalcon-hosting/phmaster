@@ -1,5 +1,5 @@
 server {
-        listen  80;
+        listen {% if alt_port is defined %} {{ alt_port }} {% else %} 80 {% endif %};
 
 
         root {{ www_dir }}/public;
