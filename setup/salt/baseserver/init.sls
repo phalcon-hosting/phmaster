@@ -48,9 +48,3 @@ php5-cli:
     - template: jinja
     - user: root
     - mode: 755
-
-/usr/local/ph:
-  file.recurse:
-    - source: salt://ph
-    - include_empty: True
-    - makedirs: True
