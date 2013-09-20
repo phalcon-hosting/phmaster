@@ -2,6 +2,7 @@ php-fpm-packages:
   pkg.installed:
     - pkgs:
       - php5-fpm
+      - php-pear
 
 
 redis:
