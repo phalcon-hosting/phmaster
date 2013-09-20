@@ -1,3 +1,4 @@
+# download and install the latest phalcon
 phalcon:
   git.latest:
     - name: https://github.com/phalcon/cphalcon.git
@@ -8,13 +9,12 @@ phalcon:
     - require:
       - pkg: git
       - pkg: php5-dev
-      - sls: requirements
+      - sls: baseserver
   cmd.wait:
    - name: ./install
    - cwd: /tmp/cphalcon/build
    - watch:
      - git: phalcon
-
 
 phalcon-ini:
     file.managed:
