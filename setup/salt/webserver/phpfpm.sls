@@ -4,14 +4,15 @@ php-fpm-packages:
       - php5-fpm
 
 
-redis-php-extension:
+redis:
   pecl.installed:
-    - name: redis
+  - require:
+      - pkg: php-pear
 
-mongo-php-extension:
+mongo:
   pecl.installed:
-    - name: mongo
-
+  - require:
+      - pkg: php-pear
 
 fpm-php-ini:
   file.managed:
