@@ -8,6 +8,7 @@ phalcon:
     - require:
       - pkg: git
       - pkg: php5-dev
+      - sls: requirements
   cmd.wait:
    - name: ./install
    - cwd: /tmp/cphalcon/build
