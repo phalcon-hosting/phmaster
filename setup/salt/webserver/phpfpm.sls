@@ -7,13 +7,11 @@ php-fpm-packages:
 redis:
   pecl.installed:
   - require:
-      - pkg: php-pear
       - sls: baseserver
 
 mongo:
   pecl.installed:
   - require:
-      - pkg: php-pear
       - sls: baseserver
 
 fpm-php-ini:
