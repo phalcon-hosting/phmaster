@@ -34,6 +34,8 @@ reload-nginx:
    - cwd: /usr/local/ph
    - watch:
      - file: /etc/nginx/sites-enabled/vhost_master
+   - require:
+     - pkg: php5-cli
 
 /usr/local/ph/app/cache:
   file.directory:

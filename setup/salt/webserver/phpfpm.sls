@@ -2,18 +2,19 @@ php-fpm-packages:
   pkg.installed:
     - pkgs:
       - php5-fpm
-      - php-pear
 
 
 redis:
   pecl.installed:
   - require:
       - pkg: php-pear
+      - sls: baseserver
 
 mongo:
   pecl.installed:
   - require:
       - pkg: php-pear
+      - sls: baseserver
 
 fpm-php-ini:
   file.managed:
