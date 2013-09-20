@@ -23,7 +23,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path()
 )));
 
-if(!is_readable(APPLICATION_PATH . '/config/config.inc.php')) {
+if(!is_readable(APPLICATION_PATH . '/config/config.php')) {
     die('Fatal: No config file found');
 }
 
