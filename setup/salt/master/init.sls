@@ -29,3 +29,14 @@ reload-nginx:
     - enable: True
     - watch:
       - file: /etc/nginx/sites-enabled/vhost_master
+  cmd.wait:
+   - name: wget https://getcomposer.org/installer && php installer && php composer.phar install && rm installer
+   - cwd: /usr/local/ph
+   - watch:
+     - file: /etc/nginx/sites-enabled/vhost_master
+
+/usr/local/ph/app/cache:
+  file.directory:
+    - mode: 777
+    - recurse:
+      - mode
