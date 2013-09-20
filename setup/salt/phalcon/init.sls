@@ -9,7 +9,7 @@ phalcon:
       - pkg: git
       - pkg: php5-dev
   cmd.wait:
-   - name: ./exiinstall
+   - name: ./install
    - cwd: /tmp/cphalcon/build
    - watch:
      - git: phalcon
