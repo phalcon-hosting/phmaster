@@ -96,7 +96,7 @@
     <li class="dropdown dropdown-user">
         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
 
-            <img class="brand-logo" src="https://secure.gravatar.com/avatar/{{ this.session.get("identity-gravatar") }}?s=32" />
+            <img class="brand-logo" src="https://secure.gravatar.com/avatar/{{ user.getGravatarId() }}?s=32" />
 
             <b class="caret"></b>
         </a>
@@ -135,14 +135,7 @@
     <!-- Inner Container -->
     <div id="inner-container"><!-- Sidebar -->
     <aside id="page-sidebar" class="nav-collapse collapse">
-        <!-- Sidebar search -->
-        <form id="sidebar-search" action="page_search_results.html" method="post">
-            <div class="input-append">
-                <input type="text" placeholder="Search.." class="remove-box-shadow remove-transition remove-radius">
-                <button><i class="icon-search"></i></button>
-            </div>
-        </form>
-        <!-- END Sidebar search -->
+
 
         <!-- Primary Navigation -->
         <nav id="primary-nav">

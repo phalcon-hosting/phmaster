@@ -19,6 +19,8 @@ use Phalcon\DI\Injectable;
  */
 class AuthService extends Injectable  {
 
+    protected $userInstance = null;
+
     /**
      * say whether or not the user is logged
      * @return bool true if the user is logged or false
@@ -40,11 +42,14 @@ class AuthService extends Injectable  {
         return 0;
     }
 
+
     /**
      * Register the user into the session
      * @param User $user
      */
     public function setLogged(User $user){
+
+        $this->invalidateUser();
 
         $session = $this->getDI()->get("session");
 
@@ -58,10 +63,37 @@ class AuthService extends Injectable  {
      */
     public function logout(){
 
+        $this->invalidateUser();
+
         $session = $this->getDI()->get("session");
 
         $session->remove('identity');
         $session->remove('identity-gravatar');
         $session->remove('identity-email');
+    }
+
+    /**
+     * Invalidate the cached user.
+     * The next call to `getUserInstance` will perform a new DB operation
+     */
+    public function invalidateUser(){
+        $this->userInstance = null;
+    }
+
+    /**
+     * Create an user instance from the logged user
+     * @return User the user instance
+     */
+    public function getUserInstance(){
+
+        if(!$this->isLogged())
+            return null;
+        // TODO : use the cache to store that
+        if($this->userInstance == null){
+            $this->userInstance = User::findFirst($this->getUserId());
+        }
+
+        return $this->userInstance;
+
     }
 }

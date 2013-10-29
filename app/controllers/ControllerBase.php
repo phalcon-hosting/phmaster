@@ -27,10 +27,14 @@ class ControllerBase extends Controller
 
         Phalcon\Tag::setTitle('Phalcon Hosting');
 
+
+        // PREPARE THE TRANSLATE SERVICE FOR THE VIEWS
         $this->translator = $this->di->get('translate');
-        // expose the translation methods to all views
         $this->view->setVar('t', $this->translator);
 
+
+        // PREPARE THE NOTIFICATIONS SERVICE FOR THE VIEWS
+        // the notificator is initialized in `afterExecuteRoute`, because it needs user id
         $this->notificator = $this->di->get("notification");
         $this->view->setVar('notifications', $this->notificator);
     }
@@ -47,8 +51,16 @@ class ControllerBase extends Controller
 
     public function afterExecuteRoute($dispatcher)
     {
-        if(($id = $this->getDI()->get("auth")->getUserId())>0)
+        $id = $this->getDI()->get("auth")->getUserId();
+        if($id>0){
+            // ITINIALIZE NOTIFICATION SERVICE
             $this->notificator->initFromUser($id);
+
+            // PREPARE THE USER INSTANCE FOR THE VIEWS
+            $user = $this->getDI()->get("auth")->getUserInstance();
+            $this->view->setVar('user', $user);
+
+        }
     }
 
 }
