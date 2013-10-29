@@ -15,7 +15,8 @@ return new \Phalcon\Config(array(
         'host'        => '',
         'username'    => '',
         'dbname'      => '',
-        'password'    => ''
+        'password'    => '',
+        'port'        => ''
     ),
     'application' => array(
         'controllersDir' => APPLICATION_PATH.'/controllers/',
