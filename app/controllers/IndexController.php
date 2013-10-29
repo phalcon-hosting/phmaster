@@ -21,7 +21,13 @@ class IndexController extends ControllerBase
     public function indexAction()
     {
 
+        $user = $this->auth->getUserInstance();
+        $hostringAccounts = \PH\Master\Model\HostingAccount::find(array(
+            "conditions" => "user_id = ?1",
+            "bind"       => array(1 => $user->getId())
+        ));
 
+        $this->view->setVar("hostingAccounts",$hostringAccounts);
 
     }
 

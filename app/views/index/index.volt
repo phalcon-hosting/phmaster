@@ -3,19 +3,28 @@
 
 {% block content_title %}
 
-    Phalcon Hosting <small>The best hosting!</small>
+    Phalcon Hosting <small>Home</small>
 
 {% endblock %}
 
 {% block content %}
 
-<p>
-    Small update 123
 
-    Another test 555
+    {%  if hostingAccounts | length > 0 %}
 
-    test from push
+        <ul>
 
-    dsdfsdf
-</p>
+            {% for hAccount in hostingAccounts %}
+
+                <li>Hosting account</li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+        You have no register hosting account. [Register Link]
+    {% endif %}
+
+
 {% endblock %}

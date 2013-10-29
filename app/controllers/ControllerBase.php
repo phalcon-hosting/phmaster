@@ -23,7 +23,14 @@ class ControllerBase extends Controller
      */
     public $notificator;
 
+    /**
+     * @var \PH\Master\Auth\AuthService
+     */
+    public $auth;
+
     public function initialize(){
+
+        $this->auth = $this->getDI()->get("auth");
 
         Phalcon\Tag::setTitle('Phalcon Hosting');
 
@@ -51,13 +58,13 @@ class ControllerBase extends Controller
 
     public function afterExecuteRoute($dispatcher)
     {
-        $id = $this->getDI()->get("auth")->getUserId();
+        $id = $this->auth->getUserId();
         if($id>0){
             // ITINIALIZE NOTIFICATION SERVICE
             $this->notificator->initFromUser($id);
 
             // PREPARE THE USER INSTANCE FOR THE VIEWS
-            $user = $this->getDI()->get("auth")->getUserInstance();
+            $user = $this->auth->getUserInstance();
             $this->view->setVar('user', $user);
 
         }
