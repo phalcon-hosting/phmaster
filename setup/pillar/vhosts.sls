@@ -1,6 +1,11 @@
+{#
+Sample structure:
+
 vhosts:
   test-dev:
     server-names:
       - test.dev
       - test2.dev
-    generated-user: 'testuser01'
+    user: 'testuser01'
+    pass: '$1$GbAKBlY2$BHEB0n4mZiO0O4sckzqe6/'
+#}

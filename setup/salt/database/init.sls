@@ -6,7 +6,7 @@ mariadb_repo:
     - managed
     - keyid: '0xcbcb082a1bb943db'
     - keyserver: keyserver.ubuntu.com
-    - name: deb http://repo.maxindo.net.id/mariadb/repo/5.5/ubuntu precise main
+    - name: deb http://mirrors.supportex.net/mariadb/repo/5.5/ubuntu precise main
 
 /etc/mysql/my.cnf:
   file:
@@ -15,92 +15,27 @@ mariadb_repo:
     - mode: 644
     - makedirs: True
 
+# preset the root password for mariab
+mariadb-root-debconf:
+  debconf.set:
+    - name: mariadb-server
+    - data:
+        mysql-server/root_password: {'type': 'password', 'value': {{ pillar["root_password"] }} }
+        mysql-server/root_password_again: {'type': 'password', 'value': {{ pillar["root_password"] }} }
+
+
 mariadb-server:
   pkg:
     - installed
     - require:
       - pkgrepo: mariadb_repo
       - file: /etc/mysql/my.cnf
+      - debconf.set: mariadb-server
   service:
    - name: mysql
-   - dead
-   - enable: False
+   - running
+   - enable: True
    - reload: True
    - require:
-      - pkgrepo: mariadb_repo
-      - file: /etc/mysql/my.cnf
-
-/etc/nginx/sites-enabled/vhost_phpmyadmin:
-  file.managed:
-    - source: salt://templates/database/phpmyadmin/vhost_phpmyadmin
-    - mode: 644
-    - makedirs: True
-
-/etc/phpmyadmin/config.inc.php:
-  file.managed:
-    - source: salt://templates/database/phpmyadmin/config.inc.php
-    - mode: 644
-    - makedirs: True
-    - require:
-      - pkg: phpmyadmin
-
-
-host-phpmyadmin:
-    file.sed:
-      - name: /etc/nginx/sites-enabled/vhost_phpmyadmin
-      - before: HOSTNAME
-      - after: {{ grains['host'] }}
-      - limit: 'server_name '
-      - require:
-        - pkg: phpmyadmin
-
-phpmyadmin-group:
-  group.present:
-    - name: phpmyadmin
-    - gid: 7649
-    - system: True
-
-phpmyadmin-user:
-  user.present:
-    - name: phpmyadmin
-    - fullname: phpmyadmin
-    - gid: 7649
-    - groups:
-      - phpmyadmin
-    - require:
-      - pkg: phpmyadmin
-      - group: phpmyadmin
-
-phpmyadmin:
-  pkg:
-    - installed
-
-php-fpm-restart:
-  service:
-    - name: php5-fpm
-    - dead
-    - enable: False
-    - reload: True
-    - watch:
-      - file: /etc/nginx/sites-enabled/vhost_phpmyadmin
-
-
-mariadb-restart:
-  service:
-    - name: mysql
-    - running
-    - enable: True
-    - reload: True
-    - require:
-      - pkg: phpmyadmin
       - pkg: mariadb-server
-
-
-
-/etc/phpmyadmin/config.inc.php:
-  file.sed:
-    - before: "'TEST_PASS'"
-    - after: "'{{ pillar["test_password"] }}'"
-    - limit: '^dbpass='
-    - require:
-      -  pkg: phpmyadmin
+      - file: /etc/mysql/my.cnf

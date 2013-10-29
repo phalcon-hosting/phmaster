@@ -14,6 +14,8 @@ assign_role() {
     echo ">>> Assigning role ${ROLE}..."
     echo
 
+
+    # todo: replace this with grains.setval ['roles', ['role1', 'role2']]
     remote_command "sudo salt-call --local grains.setval role ${ROLE}"
 
     # run salt again with the new role
@@ -80,7 +82,13 @@ run_bootstrap() {
 
 update_remote() {
     update_cmd="salt '"${MINION_HOST}"' state.highstate -v"
-    eval $update_cmd
+
+    if [ ${TEST_MODE} = true ] ; then
+        eval "$update_cmd test=True"
+    else
+        eval $update_cmd
+    fi
+
 
 }
 remote_command() {

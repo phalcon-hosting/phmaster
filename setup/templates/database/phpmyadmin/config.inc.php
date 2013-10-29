@@ -18,10 +18,7 @@
  */
 
 // Load secret generated on postinst
-include('/var/lib/phpmyadmin/blowfish_secret.inc.php');
-
-// Load autoconf local config
-include('/var/lib/phpmyadmin/config.inc.php');
+$cfg['blowfish_secret'] = '{{ blowfish_secret }}';
 
 /**
  * Server(s) configuration
@@ -31,22 +28,14 @@ $i = 0;
 // You can disable a server config entry by setting host to ''.
 $i++;
 
-$dbuser='test';
-$dbpass='TEST_PASS';
-$basepath='';
-$dbname='test';
-$dbserver='';
-$dbport='';
-$dbtype='mysql';
-
 /**
  * Read configuration from dbconfig-common
  * You can regenerate it using: dpkg-reconfigure -plow phpmyadmin
  */
-if (is_readable('/etc/phpmyadmin/config-db.php')) {
-    require('/etc/phpmyadmin/config-db.php');
+if (is_readable('config-db.php')) {
+    require('config-db.php');
 } else {
-    error_log('phpmyadmin: Failed to load /etc/phpmyadmin/config-db.php.'
+    error_log('phpmyadmin: Failed to load config-db.php.'
     . ' Check group www-data has read access.');
 }
 
@@ -56,7 +45,6 @@ if (!empty($dbname)) {
     $cfg['Servers'][$i]['auth_type'] = 'cookie';
     /* Server parameters */
     if (empty($dbserver)) $dbserver = 'localhost';
-    $cfg['Servers'][$i]['host'] = 3306;
 
     if (!empty($dbport) || $dbserver != 'localhost') {
         $cfg['Servers'][$i]['connect_type'] = 'tcp';
@@ -70,16 +58,21 @@ if (!empty($dbname)) {
     $cfg['Servers'][$i]['controlpass'] = $dbpass;
     /* Optional: Advanced phpMyAdmin features */
     $cfg['Servers'][$i]['pmadb'] = $dbname;
-    $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
-    $cfg['Servers'][$i]['relation'] = 'pma_relation';
-    $cfg['Servers'][$i]['table_info'] = 'pma_table_info';
-    $cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
-    $cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
-    $cfg['Servers'][$i]['column_info'] = 'pma_column_info';
-    $cfg['Servers'][$i]['history'] = 'pma_history';
-    $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
-    $cfg['Servers'][$i]['tracking'] = 'pma_tracking';
-    $cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
+    $cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
+    $cfg['Servers'][$i]['relation'] = 'pma__relation';
+    $cfg['Servers'][$i]['table_info'] = 'pma__table_info';
+    $cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
+    $cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
+    $cfg['Servers'][$i]['column_info'] = 'pma__column_info';
+    $cfg['Servers'][$i]['history'] = 'pma__history';
+    $cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
+    $cfg['Servers'][$i]['tracking'] = 'pma__tracking';
+    $cfg['Servers'][$i]['designer_coords'] = 'pma__designer_coords';
+    $cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
+    $cfg['Servers'][$i]['recent'] = 'pma__recent';
+    $cfg['Servers'][$i]['users'] = 'pma__users';
+    $cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
+    $cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
 
     /* Uncomment the following to enable logging in to passwordless accounts,
      * after taking note of the associated security risks. */
@@ -88,31 +81,6 @@ if (!empty($dbname)) {
     /* Advance to next server for rest of config */
     $i++;
 }
-
-/* Authentication type */
-//$cfg['Servers'][$i]['auth_type'] = 'cookie';
-/* Server parameters */
-//$cfg['Servers'][$i]['host'] = 'localhost';
-//$cfg['Servers'][$i]['connect_type'] = 'tcp';
-//$cfg['Servers'][$i]['compress'] = false;
-/* Select mysqli if your server has it */
-//$cfg['Servers'][$i]['extension'] = 'mysql';
-/* Optional: User for advanced features */
-// $cfg['Servers'][$i]['controluser'] = 'pma';
-// $cfg['Servers'][$i]['controlpass'] = 'pmapass';
-/* Optional: Advanced phpMyAdmin features */
-// $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-// $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
-// $cfg['Servers'][$i]['relation'] = 'pma_relation';
-// $cfg['Servers'][$i]['table_info'] = 'pma_table_info';
-// $cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
-// $cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
-// $cfg['Servers'][$i]['column_info'] = 'pma_column_info';
-// $cfg['Servers'][$i]['history'] = 'pma_history';
-// $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
-/* Uncomment the following to enable logging in to passwordless accounts,
- * after taking note of the associated security risks. */
-// $cfg['Servers'][$i]['AllowNoPassword'] = TRUE;
 
 /*
  * End of servers configuration

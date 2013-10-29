@@ -1,19 +1,20 @@
+# download and install the latest phalcon
 phalcon:
   git.latest:
-      - name: https://github.com/phalcon/cphalcon.git
-      - rev: master
-      - runas: ubuntu
-      - target: /tmp/cphalcon
-      - force: true
-      - require:
-          - pkg: git
-          - pkg: php5-dev
+    - name: https://github.com/phalcon/cphalcon.git
+    - rev: master
+    - runas: ubuntu
+    - target: /tmp/cphalcon
+    - force: true
+    - require:
+      - pkg: git
+      - pkg: php5-dev
+      - sls: baseserver
   cmd.wait:
-   - name: sh install
+   - name: ./install
    - cwd: /tmp/cphalcon/build
    - watch:
      - git: phalcon
-
 
 phalcon-ini:
     file.managed:

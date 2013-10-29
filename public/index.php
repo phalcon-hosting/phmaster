@@ -23,11 +23,18 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path()
 )));
 
+if(!is_readable(APPLICATION_PATH . '/config/config.php')) {
+    die('Fatal: No config file found');
+}
+
+if(!is_readable(APPLICATION_PATH . '/../vendor/autoload.php')) {
+    die('Fatal: Please run wget https://getcomposer.org/installer && php installer && php composer.phar install');
+}
 
 $debug = new \Phalcon\Debug();
 $debug->listen();
 
-/**
+/*
  * Read the configuration
  */
 $config = include __DIR__ . "/../app/config/config.php";

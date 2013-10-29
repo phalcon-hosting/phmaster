@@ -6,6 +6,13 @@ PH_DIR=/usr/local/ph
 KEYFILE=/home/${MAIN_USER}/.ssh/id_rsa
 
 bootstrap() {
+    . /etc/lsb-release
+
+    if [ ! $DISTRIB_ID = 'Ubuntu' ] ; then
+        echo ">>> This bootstrapper has been made for Ubuntu linux distributions"
+        exit
+    fi
+
     if [ ! -r ${KEYFILE} ] ; then
 
         mkdir /home/${MAIN_USER}/.ssh
@@ -43,4 +50,4 @@ echo ">>> Bootstrapping Phalcon Hosting server"
 sleep 1
 
 # bootstrap salt
-sudo bash ${DIR}/setup/salt.sh
+sudo bash ${DIR}/setup/salt.sh "$1"

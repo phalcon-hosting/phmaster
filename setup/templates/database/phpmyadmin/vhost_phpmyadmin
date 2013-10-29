@@ -4,7 +4,7 @@ server {
         root /usr/share/phpmyadmin;
         index index.php index.html index.htm;
 
-        server_name HOSTNAME;
+        server_name {{ hostname }};
 
         try_files $uri $uri/;
 

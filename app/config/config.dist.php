@@ -28,6 +28,7 @@ return new \Phalcon\Config(array(
         'cacheDir'       => APPLICATION_PATH.'/cache/',
         'locales'        => APPLICATION_PATH.'/messages/',
         'baseUri'        => '/',
+        'testMode'       => false
     ),
     'auth' => array(
         'github' => array(

@@ -1,8 +1,9 @@
+{#
+Sample structure:
 
-
-database-users:
-  - sample:
-    name: 'test'
-    password: :TEST_PASS
+ database-users:
+  test:
+    password: test
     databases:
       - test
+#}
