@@ -32,6 +32,9 @@
     <link rel="icon" type="image/ico" href="/favicon.png"/>
 </head>
 <body class="no-auth">
+
+    <div id="messages">{{ flash.output() }}</div>
+
     {% block content %}
     {% endblock %}
 </body>
