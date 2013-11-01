@@ -57,6 +57,7 @@ class AuthController extends ControllerBase
 
     }
 
+    // TODO : handle the redirect on login
     public function loginAction(){
         if($this->di->get("auth")->isLogged()){
             return $this->getDi()->get("response")->redirect();

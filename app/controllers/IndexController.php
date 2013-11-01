@@ -21,6 +21,9 @@ class IndexController extends ControllerBase
     public function indexAction()
     {
 
+        if(!$this->auth->isLogged())
+            return $this->response->redirect("auth/login");
+
         $user = $this->auth->getUserInstance();
         $hostringAccounts = \PH\Master\Model\HostingAccount::find(array(
             "conditions" => "user_id = ?1",

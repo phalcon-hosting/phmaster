@@ -23,7 +23,12 @@
         </ul>
 
     {% else %}
-        You have no register hosting account. [Register Link]
+        <div>
+            {{ t("There is no registered hosting account") }}
+        </div>
+        <div>
+            <a href="/hosting/register">{{ t("Register a new hosting account") }}</a>
+        </div>
     {% endif %}
 
 
