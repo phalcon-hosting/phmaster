@@ -28,7 +28,12 @@ div.brand-container {
     visibility: hidden;
 }
 
-
+#page-content{
+    background: #F4F4F4;
+    background-image: url('../img/ph/interface/background-phalcon.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
 
 
 /* === login stuff === */
@@ -120,4 +125,42 @@ body.no-auth{
 }
 .ph-register-link a{
     color:#999;
+}
+
+a,
+.ph-highlighted-words{
+    color: #325c71;
+}
+
+
+
+
+/* BUTTONS */
+
+.ph-button-1{
+    margin-top:30px;
+    display:inline-block;
+    padding:15px;
+    background: #0EC281;
+    color: white;
+    border-radius: 2px;
+    font-weight: bold;
+    text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 1px 1px 2px 0px #656565;
+    -webkit-box-shadow: 1px 1px 2px 0px #656565;
+    -o-box-shadow: 1px 1px 2px 0px #656565;
+    box-shadow: 1px 1px 2px 0px #656565;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=2);
+}
+
+.ph-button-1:hover{
+    color:white;
+    text-decoration: none;
+    background: #11d68f;
+}
+
+.ph-button-1:active{
+    color:white;
+    text-decoration: none;
+    background: #12ef9f;
 }

@@ -1,0 +1,34 @@
+#dashboard-page .welcome-username{
+    text-align: center;
+    color: #4F4F4F;
+    font-size: 40px;
+    font-weight: bold;
+    margin:70px 0 50px;
+}
+
+#dashboard-page .register-first-account,
+#dashboard-page .no-account,
+#dashboard-page .welcome-message{
+    text-align: center;
+    color: #898989;
+    font-weight: bold;
+
+}
+
+#dashboard-page .welcome-message{
+    font-size: 24px;
+    margin: 5px;
+}
+
+#dashboard-page .no-account{
+    font-size: 18px;
+}
+
+#dashboard-page .register-first-account{
+    font-size: 14px;
+    margin: 15px;
+}
+
+#dashboard-page .register-button{
+    text-align: center;
+}

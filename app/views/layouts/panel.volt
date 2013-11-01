@@ -11,14 +11,17 @@
     {{ stylesheet_link('css/bootstrap.css') }}
 
 
+    <!-- TODO : Compress and merge css script -->
+    <!-- Default CSS -->
     {{ stylesheet_link('css/main.css') }}
     {{ stylesheet_link('css/plugins.css') }}
     {{ stylesheet_link('css/themes.css') }}
     {{ stylesheet_link('css/fancybox.css') }}
     {{ stylesheet_link('css/colors/aqua-green.css') }}
 
-    <!-- Stylesheet for PH -->
+    <!-- PH CSS -->
     {{ stylesheet_link('css/ph.css') }}
+    {{ stylesheet_link('css/pages/dashboard.css') }}
 
 
     <link href="http://fonts.googleapis.com/css?family=Oswald:400,300" rel="stylesheet" type="text/css" media="screen"/>
@@ -167,13 +170,7 @@
     <!-- END Sidebar -->
     <!-- Page Content -->
     <div id="page-content">
-        <!-- Navigation info -->
-        <ul id="nav-info" class="clearfix">
-            <li><a href="index.html"><i class="icon-home"></i></a></li>
-            <li><a href="javascript:void(0)">Components</a></li>
-            <li class="active"><a href="">Calendar</a></li>
-        </ul>
-        <!-- END Navigation info -->
+
 
         <!-- FullCalendar -->
         <div class="row-fluid">
@@ -182,9 +179,6 @@
                 {{ test|json_encode }}
             {% endif %}
 
-
-
-            <h3 class="page-header page-header-top">{% block content_title %}Phalcon Hosting{% endblock %}</h3>
 
             <div id="messages">{{ flash.output() }}</div>
 
